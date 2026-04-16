@@ -12,35 +12,42 @@ async function checkSites() {
 
     for (let site of sites) {
         let newStatus = "DOWN";
+        let responseTime = null;
+
+        const start = Date.now();
 
         try {
             const res = await axios.get(site.url, {
                 timeout: config.timeout
             });
 
+            responseTime = Date.now() - start;
+
             if (res.status === 200) {
                 newStatus = "UP";
             }
         } catch (err) {
+            responseTime = null;
             newStatus = "DOWN";
         }
 
-        // 🚨 Only send alert if status changed
+        // 🚨 Alert only on status change
         if (site.status && site.status !== newStatus) {
             let message = "";
 
             if (newStatus === "DOWN") {
                 message = `🚨 ALERT: ${site.url} is DOWN`;
             } else {
-                message = `✅ RECOVERED: ${site.url} is back UP`;
+                message = `✅ RECOVERED: ${site.url} is back UP (${responseTime} ms)`;
             }
 
             console.log(message);
             await sendTelegramMessage(message);
         }
 
-        // Update site data
+        // Save updates
         site.status = newStatus;
+        site.responseTime = responseTime;
         site.lastChecked = new Date().toISOString();
     }
 
@@ -50,10 +57,7 @@ async function checkSites() {
 function startMonitoring() {
     console.log("🔄 Monitoring started...");
 
-    // Run immediately
     checkSites();
-
-    // Then repeat
     setInterval(checkSites, config.interval);
 }
 

@@ -2,4 +2,3 @@ node_modules/
 .env
 .DS_Store
 backend/src/data/sites.json
-backend/src/data/sites.json

@@ -11,10 +11,15 @@ async function fetchSites() {
         const li = document.createElement("li");
 
         li.innerHTML = `
-            <strong>${site.url}</strong> 
-            - <span class="status ${site.status}">${site.status}</span>
+            <strong>${site.url}</strong>
+            <br/>
+            Status: <span class="status ${site.status}">${site.status}</span>
+            <br/>
+            Response: ${site.responseTime ? site.responseTime + " ms" : "N/A"}
             <br/>
             <small>${site.lastChecked || "Never checked"}</small>
+            <br/><br/>
+            <button onclick="deleteSite(${site.id})">Delete</button>
         `;
 
         list.appendChild(li);
@@ -36,6 +41,14 @@ async function addSite() {
     });
 
     input.value = "";
+    fetchSites();
+}
+
+async function deleteSite(id) {
+    await fetch(`${API}/${id}`, {
+        method: "DELETE"
+    });
+
     fetchSites();
 }
 
