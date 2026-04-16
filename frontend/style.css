@@ -1,0 +1,84 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0f172a;
+    color: #e2e8f0;
+    padding: 20px;
+}
+
+/* Container */
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Title */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Input section */
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #22c55e;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #16a34a;
+}
+
+/* Site list */
+ul {
+    list-style: none;
+}
+
+li {
+    background-color: #1e293b;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Status styles */
+.status {
+    font-weight: bold;
+}
+
+.status.UP {
+    color: #22c55e;
+}
+
+.status.DOWN {
+    color: #ef4444;
+}
+
+/* Timestamp */
+small {
+    color: #94a3b8;
+}
