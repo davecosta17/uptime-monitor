@@ -27,12 +27,44 @@ async function checkSites() {
                 newStatus = "UP";
             }
         } catch (err) {
-            responseTime = null;
             newStatus = "DOWN";
+            responseTime = null;
         }
 
-        // 🚨 Alert only on status change
+        // Initialize fields
+        site.totalChecks = site.totalChecks || 0;
+        site.totalUp = site.totalUp || 0;
+        site.history = site.history || [];
+        site.responseHistory = site.responseHistory || [];
+
+        // Update counters
+        site.totalChecks += 1;
+        if (newStatus === "UP") {
+            site.totalUp += 1;
+        }
+
+        // 📊 Save response time history
+        site.responseHistory.push({
+            time: new Date().toLocaleTimeString(),
+            value: responseTime
+        });
+
+        // Keep only last 20 points
+        if (site.responseHistory.length > 20) {
+            site.responseHistory.shift();
+        }
+
+        // 🚨 Status change
         if (site.status && site.status !== newStatus) {
+            site.history.push({
+                status: newStatus,
+                timestamp: new Date().toISOString()
+            });
+
+            if (site.history.length > 50) {
+                site.history.shift();
+            }
+
             let message = "";
 
             if (newStatus === "DOWN") {
@@ -41,11 +73,9 @@ async function checkSites() {
                 message = `✅ RECOVERED: ${site.url} is back UP (${responseTime} ms)`;
             }
 
-            console.log(message);
             await sendTelegramMessage(message);
         }
 
-        // Save updates
         site.status = newStatus;
         site.responseTime = responseTime;
         site.lastChecked = new Date().toISOString();

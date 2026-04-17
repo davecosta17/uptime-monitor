@@ -90,3 +90,16 @@ button {
 button:hover {
     opacity: 0.9;
 }
+
+ul ul {
+    margin-top: 5px;
+    padding-left: 15px;
+    font-size: 0.9em;
+}
+
+.card {
+    background-color: #1e293b;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}

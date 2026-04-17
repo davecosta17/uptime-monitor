@@ -3,6 +3,9 @@
 <head>
     <title>Uptime Monitor</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -13,7 +16,7 @@
             <button onclick="addSite()">Add</button>
         </div>
 
-        <ul id="siteList"></ul>
+        <div id="siteList"></div>
     </div>
 
     <script src="app.js"></script>
